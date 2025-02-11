@@ -1,13 +1,24 @@
+import { Metadata } from "next"
 import { getListProducts, getProductByHandle } from "@/lib/actions/products"
 import { formatImageCard } from "@/lib/functions"
-import { Metadata } from "next"
+
+import ProductDetails from "@/modules/product-details/ProductDetails"
+import { notFound } from "next/navigation"
 
 export async function generateStaticParams() {
-  const products = await getListProducts()
+  try {
+    const products = await getListProducts()
 
-  return products.map((product) => ({
-    handle: product.linkText
-  }))
+    return products.map((product) => ({
+      handle: product.linkText
+    }))
+  } catch (error) {
+    console.error(
+      `Failed to generate static paths for product pages: ${error instanceof Error ? error.message : "Unknown error"
+      }.`
+    )
+    return []
+  }
 }
 
 export async function generateMetadata({
@@ -17,13 +28,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { handle } = await params
 
-  const product = await getProductByHandle(handle)
+  const [product] = await getProductByHandle(handle)
+
+  if (!product) {
+    notFound()
+  }
 
   return {
-    title: `${product[0].productName} | store`,
-    description: product[0].metaTagDescription,
+    title: `${product?.productName} | store` || '',
+    description: product?.metaTagDescription || '',
     openGraph: {
-      images: [formatImageCard('280', '280', product[0])]
+      images: [formatImageCard('280', '280', product)]
     }
   }
 
@@ -35,9 +50,13 @@ export default async function ProductPage({
   params: Promise<{ handle: string }>
 }) {
   const { handle } = await params
+  const [product] = await getProductByHandle(handle)
 
-  console.log('handle: ', handle)
+  if (!product) {
+    notFound()
+  }
+
   return (
-    <div></div>
+    <ProductDetails product={product} />
   )
 }

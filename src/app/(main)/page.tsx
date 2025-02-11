@@ -9,7 +9,7 @@ export default async function Home(props:any) {
   const productsInitials = await getProductsPaginate(INITIAL_PAGE, ITEMS_PER_PAGE)
 
   return (
-    <main className="bg-white">
+    <main className="">
       <div className="container p-4 mx-auto flex flex-col">
         <div className="flex flex-row">
           <div className="w-1/3 hidden sm:block">

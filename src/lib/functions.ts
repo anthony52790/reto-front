@@ -6,3 +6,14 @@ export const formatImageCard = (width: string, height: string, product: Product)
 
   return `https://plazavea.vteximg.com.br/arquivos/ids/${imageId}-${width}-${height}/${imageText}.jpg`
 }
+
+export const formatPrice = (price: number) => {
+
+  let monery = new Intl.NumberFormat('es-PE', {
+    style: 'currency',
+    currency: 'PEN',
+    minimumFractionDigits: 2
+  });
+
+  return monery.format(price)
+}

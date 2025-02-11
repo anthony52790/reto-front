@@ -9,6 +9,7 @@ export interface Pagination {
 }
 
 export interface Product {
+  [key: string]: any
   productId: string
   productName: string
   brand: string
@@ -27,15 +28,15 @@ export interface Product {
   categories: string[]
   categoriesIds: string[]
   link: string
-  "Tipo de Producto": any[]
-  "Vendido por": any[]
+  "Tipo de Producto": string[]
+  "Vendido por": string[]
   "Presentación unitarios vitrina"?: string[]
-  "Componentes del Producto": any[]
-  "Descuentos exclusivos": any[]
-  Descuentos: any[]
-  "Tipo de envío": any[]
-  "Método de Entrega": any[]
-  Surtido?: any[]
+  "Componentes del Producto": string[]
+  "Descuentos exclusivos": string[]
+  "Descuentos": string[]
+  "Tipo de envío": string[]
+  "Método de Entrega": string[]
+  "Surtido"?: string[]
   "Contiene Pepas"?: string[]
   "Declaración De Origen Natural"?: string[]
   "Peso Por Unidad"?: string[]
